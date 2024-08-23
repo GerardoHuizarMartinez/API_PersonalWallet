@@ -1,0 +1,31 @@
+{
+  "name": "api_personalwallet",
+  "version": "1.0.0",
+  "description": "Api para la app Personal Wallet",
+  "main": "index.js",
+  "scripts": {
+    "dev" : "nodemon ./src/app.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "API",
+    "PersonaWallet",
+    "test"
+  ],
+  "author": "Luis Gerardo Huízar Martínez",
+  "license": "ISC",
+  "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^22.4.0"
+  }
+}
