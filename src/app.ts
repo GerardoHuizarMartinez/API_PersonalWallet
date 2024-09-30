@@ -7,7 +7,6 @@ import { router } from "./routers/Index";
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors()) ; //peticiones a servidor desde angular
-app.use(router); //Haciendo uso de las rutas de compras
 app.use(express.json()); //entender json (antes body parser)
 app.use(express.urlencoded({ extended: false })); //validar formuarios html
 
