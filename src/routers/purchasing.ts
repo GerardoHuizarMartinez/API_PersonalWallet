@@ -1,12 +1,16 @@
-import { Request, Router, Response } from "express";
-import { getCatgories, getPurchase, postPurchase } from "../controllers/purchasing";
+import { Router } from "express";
+import purchaseControllers from "../controllers/purchasing";
 
 const router = Router();
 
-router.get('/', getPurchase); 
+router.get('/getAllPurchases', purchaseControllers.getAllPurchases); 
 
-router.get('/cat', getCatgories); 
+router.get('/getAllCategories', purchaseControllers.getAllCategories ); 
 
-router.post('/', postPurchase); 
+router.get('/getSummaryPerMonth', purchaseControllers.getSummaryPerMonth );
 
+router.put('/deletePurchase/:idPurchase', purchaseControllers.deletePurchase);
+
+router.post('/', ); 
+ 
 export {router};

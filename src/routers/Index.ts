@@ -18,12 +18,11 @@ readdirSync(PATH_ROUTER).filter((fileName) => {
     const cleanName = cleanFileName(fileName);
     if (cleanName !== "Index") {
         import(`./${cleanName}`).then((moduleRoute) => {
-            //console.log(`Se esta cargando la ruta... ${cleanName}`)
-            router.use(`/${cleanName}`, moduleRoute.router);
+           // console.log(`Se esta cargando la ruta... ${cleanName}`)
+            router.use(`/api/${cleanName}`, moduleRoute.router);
         });
     
     }
-
     
 });
 
