@@ -1,4 +1,4 @@
-import "dotenv/config"
+//import "dotenv/config"
 import express from "express"
 import cors from "cors"
 import dbConection from "../database";
@@ -12,17 +12,19 @@ app.use(express.urlencoded({ extended: false })); //validar formuarios html
 app.use(router); //Haciendo uso de las rutas de compras
 
     app.use((req, res, next) => {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
-        //res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // Ajuste aquí
-        res.setHeader('Access-Control-Allow-Methods', 'Content-Type');
+        res.setHeader('Access-Control-Allow-Origin', '*'); // Permitir todas las orígenes
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Ajuste de encabezados permitidos
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Métodos permitidos
         next();
     });
 
-dbConection.getConnection().then( () => {
-    //console.log("Se realizo la conexión correctamente con la base de datos");
-    dbConection.releaseConnection;
-});
+dbConection.getConnection()
+    .then(() => {
+        console.log("Conexión establecida correctamente con la base de datos");
+    })
+    .catch(err => {
+        console.error("Error al conectar a la base de datos:", err);
+    });
 
 
 app.listen(PORT, () => console.log(`El servidor abierto en el puerto: ${PORT}`));

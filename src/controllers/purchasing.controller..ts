@@ -7,24 +7,16 @@ class purchaseController {
     getAllPurchases = async (req: Request, res: Response) => {
         try {
 
-            const mysql = 'SELECT  ROW_NUMBER() OVER (ORDER BY purchaseDate) AS indice, pro.idProduct, cat.name, pro.productName,  pro.paymentMethod, pro.price, pro.purchaseDate, pro.state'
-                + ' FROM  product pro'
-                + ' INNER JOIN category cat ON cat.idCategory = pro.fk_idCategory'
-                + ' INNER JOIN user usr ON usr.idUser = pro.fk_idUser'
-                + ' WHERE pro.purchaseDate between ( SELECT CONCAT(YEAR(CURDATE()), "-", LPAD(MONTH(CURDATE()), 2, "0"), "-01"))  AND (SELECT LAST_DAY(curdate())) '
-                + ' AND usr.idUser = ? AND pro.state = "Liquidado";'
-            //const [rows, fields] = await dbConection.query(sql, [req.body.idUser])
+            const sql = 'SELECT row_number() OVER (ORDER BY pro.productName) AS indice ,  pro.purchaseDate, pro.productName, payme.methodPayment, pro.price, st.nameStatus'
+           + ' FROM user usr '
+           + ' INNER JOIN PURCHASE pro ON pro.fk_idUser = usr.idUser'
+           + ' INNER JOIN CATEGORY cat ON cat.idCategory = pro.fk_idCategory'
+           + ' INNER JOIN paymenthmethod payme ON payme.idMethod = pro.fk_paymentMethod'
+           + ' INNER JOIN status st ON st.idStatus = pro.fk_status'
+           + ' WHERE purchaseDate between (select concat(year(curdate()), "-" , month(curdate()), "-" , "01" )) AND last_day(curdate()) AND st.nameStatus = "Activo" AND usr.idUser = 1 '
+           + ' ORDER BY pro.purchaseDate ;'
 
-
-            const sql = 'SELECT  ROW_NUMBER() OVER (ORDER BY purchaseDate) AS indice, pro.idProduct, cat.name, pro.productName,  pro.paymentMethod, pro.price, pro.purchaseDate, pro.state'
-                + ' FROM  product pro '
-                + ' INNER JOIN category cat ON cat.idCategory = pro.fk_idCategory '
-                + ' INNER JOIN user usr ON usr.idUser = pro.fk_idUser '
-                + ' WHERE pro.purchaseDate between "2024-08-01" AND "2024-08-31" AND usr.idUser = 1 AND pro.state = "Liquidado"; '
-
-            //const conn = await mysql.createConnection(access);
-
-            const [rows, fields] = await dbConection.query(sql)
+            const [rows, fields] = await dbConection.query(sql, [req.body.idUser])
             res.json(rows)
 
         } catch (e) {
@@ -32,7 +24,7 @@ class purchaseController {
         }
     };
 
-    async getAllCategories (req: Request, res: Response) {
+    async getAllCategories(req: Request, res: Response) {
         try {
 
             const sql = 'SELECT cat.idCategory ,cat.name, ROUND(SUM(pro.price), 2) as value '
@@ -44,7 +36,7 @@ class purchaseController {
             //     const conn = await mysql.createConnection(access);
             const [rows, fields] = await dbConection.query(sql)
             res.json(rows)
- 
+
         } catch (e) {
             handlerHttp(res, "No se pudieron obtener la data")
             console.log(e)
@@ -74,11 +66,11 @@ class purchaseController {
             console.log("Body: ", req.body.status)
             console.log("Params: ", req.params.idPurchase)
 
-           
+
             const sql = 'UPDATE product SET state = ? WHERE idProduct = ?;'
-            const result  = await dbConection.query(sql, [req.body.status, req.params.idPurchase]);
+            const result = await dbConection.query(sql, [req.body.status, req.params.idPurchase]);
             res.json(result)
-              
+
         } catch (e) {
             handlerHttp(res, "Error generico")
             console.log(e)
