@@ -7,5 +7,7 @@ const router = Router();
 router.post('/registerNewUser', userContro.register);
 router.get('/', userContro.obtain);
 
+router.get('/getCountry', userContro.getCountry);
+
 
 export { router };

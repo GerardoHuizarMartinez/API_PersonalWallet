@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dbConnection from "../../database";
 import { User } from "../interface/user.interface";
-import { Login } from "../interface/login.interface";
 import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 
 
